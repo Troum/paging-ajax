@@ -1,28 +1,58 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app id="app">
+    <alert-component/>
+    <v-app-bar
+      app
+      fixed
+      color="secondary"
+      dark
+    >
+      <div class="d-flex align-center">
+        <span @click="goTo('main')" style="cursor: pointer" class="font-weight-bold text-h5">PagingAjax</span>
+      </div>
+
+      <v-spacer></v-spacer>
+      <template v-if="!authorized">
+        <v-btn
+            @click="goTo('login')"
+            text
+        >
+          <span class="mr-2">Войти</span>
+          <v-icon>mdi-login</v-icon>
+        </v-btn>
+      <v-btn
+          @click="goTo('register')"
+          text
+      >
+        <span class="mr-2">Регистрация</span>
+        <v-icon>mdi-arrow-up</v-icon>
+      </v-btn>
+      </template>
+    </v-app-bar>
+    <v-main app>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+  data () {
+    return {
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+    }
+  },
+  methods: {
+    goTo (name) {
+      this.$router.push({ name: name })
+    }
+  },
+  computed: {
+    authorized () {
+      return !!this.$store.getters.GET_TOKEN
+    }
+  }
+};
+</script>
